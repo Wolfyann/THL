@@ -18,6 +18,35 @@ This project provides an ESP8266-based solution for monitoring temperature and h
 * Pushbutton switch (optional)
 * Breadboard and jumper wires
 
+**Schematic**
+
+1. ESP8266:
+
+   * VCC: 5V power supply
+   * GND: Ground
+   * D2: Data signal for OLED display (SDA)
+   * D1: Clock for OLED display (SCL)
+   * D3: Pin for DHT sensor (data)
+   * D4: Pin for push button (interrupt)
+
+2. OLED Display:
+
+   * VCC: 5V power supply
+   * GND: Ground
+   * SDA: Connected to D2 of ESP8266
+   * SCL: Connected to D1 of ESP8266
+
+3. DHT Sensor:
+
+   * VCC: Power supply 5V
+   * GND: Ground
+   * Data: Connected to D3 of ESP8266
+
+4. Push Button:
+
+   * One leg: Connected to D4 of the ESP8266
+   * Other leg: Connected to ground or power supply via pull-up resistor
+
 **Software Requirements:**
 
 * Arduino IDE
