@@ -12,10 +12,10 @@ This project provides an ESP8266-based solution for monitoring temperature and h
 
 **Hardware Requirements:**
 
-* ESP8266 development board (e.g., NodeMCU, D1 Mini)
+* ESP8266 development board
 * DHT22 temperature and humidity sensor
-* 128x64 OLED display (e.g., SSD1306)
-* Pushbutton switch (optional)
+* 128x64 OLED display (SSD1306)
+* Pushbutton switch
 * Breadboard and jumper wires
 
 **Schematic**
