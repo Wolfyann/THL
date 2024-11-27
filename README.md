@@ -72,6 +72,8 @@ This project provides an ESP8266-based solution for monitoring temperature and h
 * The temperature and humidity readings will update periodically at the configured interval.
 * Press the button (if connected) to turn on the OLED screen for the set display duration.
 
+![screenshot](https://github.com/Wolfyann/THL/blob/main/ressources/thl_screen.jpg)
+
 **Additional Notes:**
 
 * The code utilizes deep sleep mode to reduce power consumption when the OLED screen is off.
