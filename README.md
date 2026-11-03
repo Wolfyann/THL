@@ -1,85 +1,110 @@
-# ESP8266 Temperature and Humidity Monitor with OLED Display
+Voici une proposition complète pour rédiger le descriptif et le guide d'utilisation de votre projet (adapté pour les home studios, musiciens et luthiers), prêt à être intégré dans votre dépôt GitHub ou votre page de présentation.
 
-This project provides an ESP8266-based solution for monitoring temperature and humidity with a real-time display on an OLED screen. It also includes a low battery warning feature.
+---
 
-**Features:**
+# Station Température & Hygrométrie connectée pour Home Studio & Lutherie 🎸🌡️
 
-* Measures temperature and humidity using a DHT22 sensor.
-* Displays the current readings, including a basic temperature graph, on a 128x64 OLED screen.
-* Alerts for low battery voltage.
-* Configurable measurement interval and display duration.
-* Low-power design with Wi-Fi disabled and ESP deep sleep during screen off periods.
+Une station de mesure intelligente, économe en énergie et ultra-précise, spécialement conçue pour surveiller l'environnement des instruments de musique (guitares, violons, bois massifs) et des home studios. Développée sur **FireBeetle ESP8266** avec un capteur **DHT22** et un écran **OLED SSD1306 (0.96")**, elle intègre une gestion avancée de l'autonomie sur batterie et un affichage multi-pages complet.
 
-**Hardware Requirements:**
+---
 
-* ESP8266 development board
-* DHT22 temperature and humidity sensor
-* 128x64 OLED display (SSD1306)
-* Pushbutton switch
-* Breadboard and jumper wires
+## 🎯 Pourquoi ce projet pour les musiciens et luthiers ?
 
-**Schematic**
+Les instruments à cordes et en bois massif (guitares acoustiques, classiques, violons, cellos) réagissent instantanément aux variations hygrométriques :
 
-1. ESP8266:
+* **En dessous de 40 % d'humidité** : Le bois se rétracte, entraînant des risques majeurs de fissures de la table d'harmonie, de frisage ou de décollement des frettes.
+* **Au-dessus de 60 % d'humidité** : Le bois gonfle, la colle animale ramollit, et le risque de moisissure ou de condensation apparaît.
 
-   * VCC: 5V power supply
-   * GND: Ground
-   * D2: Data signal for OLED display (SDA)
-   * D1: Clock for OLED display (SCL)
-   * D3: Pin for DHT sensor (data)
-   * D4: Pin for push button (interrupt)
+Cette station de monitoring offre un suivi permanent de ces paramètres critiques pour éviter les dommages irréversibles sur vos instruments précieux.
 
-2. OLED Display:
+---
 
-   * VCC: 5V power supply
-   * GND: Ground
-   * SDA: Connected to D2 of ESP8266
-   * SCL: Connected to D1 of ESP8266
+## ✨ Fonctionnalités principales
 
-3. DHT Sensor:
+* **⚡ Autonomie optimisée & Réactivité instantanée** : Grâce à un sommeil léger intelligent sans interruption cadencée, l'ESP8266 se réveille instantanément dès l'appui sur le bouton tout en préservant la batterie.
+* **📈 Graphique d'historique sur 12h** : Visualisez en un clin d'œil les tendances de température et d'humidité des dernières heures (avec repères visuels de la zone idéale 45-55 %).
+* **💧 Calcul du Point de Rosée** : Évaluez le risque de condensation sur les parois froides ou à proximité des instruments.
+* **⚠️ Suivi du Stress Hydrique** : Affiche le pourcentage exact de temps passé hors des zones de sécurité pour quantifier l'exposition au danger (trop sec / trop humide).
+* **🚨 Historique des Pics et Alertes** : Garde en mémoire l'intensité et l'ancienneté des pires pics de sécheresse ou d'humidité enregistrés.
+* **🔋 Surveillance de la batterie** : Indicateur de tension en temps réel, jauge graphique, alerte de batterie faible et arrêt protecteur en cas de seuil critique.
 
-   * VCC: Power supply 5V
-   * GND: Ground
-   * Data: Connected to D3 of ESP8266
+---
 
-4. Push Button:
+## 🖥️ Navigation sur l'écran (6 Pages)
 
-   * One leg: Connected to D4 of the ESP8266
-   * Other leg: Connected to ground or power supply via pull-up resistor
+Un appui court sur le bouton poussoir allume l'écran et permet de faire défiler les pages suivantes :
 
-**Software Requirements:**
+1. **PAGE 0 : Lecture immédiate & Graphique**
+* Température et humidité en grands chiffres avec flèche de tendance.
+* Graphique d'historique sur la hauteur de l'écran (courbe d'humidité et points de température).
+* Changement visuel du fond en cas d'alerte.
 
-* Arduino IDE
-* ESP8266 libraries:
-    * Adafruit_GFX
-    * Adafruit_SSD1306
-    * DHT
 
-**Installation:**
+2. **PAGE 1 : Statistiques globales**
+* Température et humidité (Min / Moyenne / Max).
+* Durée de la période couverte et taux de présence dans la plage idéale.
 
-1. Download the code from this repository.
-2. Install the required libraries in the Arduino IDE:
-    * Go to **Sketch > Include Library > Manage Libraries**.
-    * Search for and install the mentioned libraries.
-3. Connect your ESP8266 board, OLED display, and DHT22 sensor according to the wiring diagram provided (if applicable).
-4. Modify the configuration constants in the code (`BUTTON_PIN`, `SCREEN_WIDTH`, `SCREEN_HEIGHT`, etc.) to match your setup.
-5. Upload the code to your ESP8266 board using the Arduino IDE.
 
-**Usage:**
+3. **PAGE 2 : Point de rosée**
+* Valeur actuelle, moyenne et extrêmes du point de rosée.
+* Pied de page dynamique évaluant le risque pour les instruments.
 
-* Power on your ESP8266 board.
-* The OLED screen will display the current temperature, humidity, voltage, and a basic temperature graph.
-* The temperature and humidity readings will update periodically at the configured interval.
-* Press the button (if connected) to turn on the OLED screen for the set display duration.
 
-![screenshot](https://github.com/Wolfyann/THL/blob/main/ressources/thl_screen.jpg)
+4. **PAGE 3 : Stress hydrique (Temps hors limites)**
+* Pourcentage du temps passé en zone sécurisée (40-60 %), en zone sèche (<40 %) et en zone humide (>60 %).
 
-**Additional Notes:**
 
-* The code utilizes deep sleep mode to reduce power consumption when the OLED screen is off.
-* Feel free to customize the code for your specific needs, such as modifying the displayed information on the screen or adding data logging features.
+5. **PAGE 4 : Pics & Alertes**
+* Valeur de la pire sécheresse et de la pire humidité enregistrées, avec leur ancienneté précise (ex: *"il y a 2h"*).
 
-**License:**
 
-This code is licensed under the MIT License (see LICENSE file)
+6. **PAGE 5 : Diagnostic système**
+* Tension précise de la batterie (`V`), état de santé du capteur DHT22, temps de veille et durée de fonctionnement cumulée (*Uptime*).
 
+
+
+---
+
+## 🛠️ Composants Matériels (Hardware)
+
+* **Microcontrôleur** : DFRobot FireBeetle ESP8266 (ou NodeMCU ESP8266 V2).
+
+
+* **Capteur** : DHT22 (AM2302) – Température et Hygrométrie haute précision.
+
+
+* **Afficheur** : Écran OLED 0.96" SSD1306 (128×64 pixels, protocole I2C).
+
+
+* **Alimentation** : Batterie Li-Po (avec gestion de la tension sur ADC).
+* **Interface** : Bouton poussoir tactile.
+
+---
+
+## 🔌 Schéma de Câblage
+
+| Composant | Broche Composant | Broche ESP8266 |
+| --- | --- | --- |
+| **Écran OLED (I2C)** | SCL | GPIO 5 (D1)
+
+ |
+|  | SDA | GPIO 4 (D2)
+
+ |
+| **Capteur DHT22** | DATA | GPIO 10 |
+| **Bouton Poussoir** | Signal / Pull-up | GPIO 12 (autre borne à GND) |
+
+---
+
+## 🚀 Installation & Utilisation
+
+1. Clonez ce dépôt ou téléchargez le fichier source `.ino`.
+2. Ouvrez le projet avec l'IDE Arduino.
+3. Installez les bibliothèques requises via le gestionnaire de bibliothèques :
+* `Adafruit GFX Library`
+* `Adafruit SSD1306`
+* `DHT sensor library` (par Adafruit)
+
+
+4. Sélectionnez votre carte ESP8266, compilez et téléversez le code sur votre module.
+5. Intégrez l'ensemble dans votre boîtier imprimé en 3D !
