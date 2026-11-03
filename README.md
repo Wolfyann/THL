@@ -105,4 +105,4 @@ Un appui court sur le bouton poussoir allume l'écran et permet de faire défile
 4. Sélectionnez votre carte ESP8266, compilez et téléversez le code sur votre module.
 5. Intégrez l'ensemble dans votre boîtier imprimé en 3D !
 
-![Aperçu des écrans de la station généré par IA](./thl_screen.jpg)
+![Aperçu des écrans de la station généré par IA](./ressources/thl_screen.jpg)
