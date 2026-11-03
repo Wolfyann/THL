@@ -93,3 +93,5 @@ A short press on the push button turns on the screen and cycles through the foll
 
 4. Select your ESP8266 board, compile, and upload the code to your module.
 5. Integrate the assembly into your 3D-printed enclosure!
+
+![Aperçu des écrans de la station](./ressources/thl_screen.jpg)
