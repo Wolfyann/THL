@@ -1,7 +1,3 @@
-Voici une proposition complète pour rédiger le descriptif et le guide d'utilisation de votre projet (adapté pour les home studios, musiciens et luthiers), prêt à être intégré dans votre dépôt GitHub ou votre page de présentation.
-
----
-
 # Station Température & Hygrométrie connectée pour Home Studio & Lutherie 🎸🌡️
 
 Une station de mesure intelligente, économe en énergie et ultra-précise, spécialement conçue pour surveiller l'environnement des instruments de musique (guitares, violons, bois massifs) et des home studios. Développée sur **FireBeetle ESP8266** avec un capteur **DHT22** et un écran **OLED SSD1306 (0.96")**, elle intègre une gestion avancée de l'autonomie sur batterie et un affichage multi-pages complet.
