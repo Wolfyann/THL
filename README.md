@@ -1,4 +1,4 @@
-# Connected Temperature & Humidity Station for Home Studio & Lutherie 🎸🌡️
+# Temperature & Humidity Station for Home Studio & Lutherie 🎸🌡️
 
 An intelligent, energy-efficient, and ultra-precise measurement station specifically designed to monitor the environment of musical instruments (guitars, violins, solid woods) and home studios. Developed on a **FireBeetle ESP8266** with a **DHT22** sensor and an **OLED SSD1306 (0.96")** display, it features advanced battery management and a comprehensive multi-page interface.
 
