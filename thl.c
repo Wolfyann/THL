@@ -1,6 +1,6 @@
 /*
  * Temperature / Humidity Station – FireBeetle ESP8266 + DF Robot DHT22 + OLED SSD1306 0.96'
- * Version 4.6
+ * Version 4.7
  *
  * A button press turns on the display; each subsequent press changes the page:
  *   PAGE 1: humidity and temperature (large digits) + full-height graph
@@ -47,7 +47,7 @@ extern "C" {
   #include <gpio.h>
 }
 
-#define FW_VERSION "4.6"
+#define FW_VERSION "4.7"
 #define DEBUG_SERIAL 0
 #define TEST_FAST    0
 
@@ -1178,38 +1178,23 @@ static void wakeCb() {
   }
 }
 
-static void dormirJusquA(uint32_t msMax) {
+// Returns true if the SDK accepted the light sleep request.
+static bool dormirTranche(uint32_t ms) {
   wifi_fpm_set_sleep_type(LIGHT_SLEEP_T);
   wifi_fpm_open();
 
   gpio_pin_wakeup_enable(GPIO_ID_PIN(BUTTON_PIN), GPIO_PIN_INTR_LOLEVEL);
   wifi_fpm_set_wakeup_cb(wakeCb);
 
-  // If msMax is very large, SDK accepts durations in milliseconds.
-  // If the button is pressed earlier, wake-up is immediate.
-  if (wifi_fpm_do_sleep(msMax * 1000UL) == 0) {
-    delay(msMax + 1);
-  } else {
-    delay(1);
-  }
-
-  gpio_pin_wakeup_disable();
-}
-
-static void dormirTranche(uint32_t ms) {
-  wifi_fpm_set_sleep_type(LIGHT_SLEEP_T);
-  wifi_fpm_open();
-
-  gpio_pin_wakeup_enable(GPIO_ID_PIN(BUTTON_PIN), GPIO_PIN_INTR_LOLEVEL);
-  wifi_fpm_set_wakeup_cb(wakeCb);
-
-  if (wifi_fpm_do_sleep(ms * 1000UL) == 0) {
+  const bool accepte = (wifi_fpm_do_sleep(ms * 1000UL) == 0);
+  if (accepte) {
     delay(ms + 1);
   } else {
     delay(ms);
   }
 
   gpio_pin_wakeup_disable();
+  return accepte;
 }
 
 // ---------- Program ----------
@@ -1295,24 +1280,20 @@ void loop() {
   }
 
   // 4. Intelligent waiting
+  //  - button held : short pause
+  //  - screen on   : stay awake (no sleep) so every press is read immediately
+  //  - screen off  : light sleep in short slices (the button wakes the CPU).
+  //    A single long sleep until the next measurement is avoided: the SDK limits one
+  //    light sleep to 0xFFFFFFF us (~268 s), and after an early wake-up by the button
+  //    the delay() that follows keeps running until the end of the requested duration.
   if (bas) {
     delay(20);
-  } 
-  else if (ecranAllume) {
+  } else if (ecranAllume) {
     delay(10);
-  } 
-  else {
-    // Calculate remaining time until next measurement
-    uint32_t tempsEcouleMesure = now - derniereMesure;
-    uint32_t tempsRestantMesure = (tempsEcouleMesure < MEASUREMENT_INTERVAL_MS) ? 
-                                   (MEASUREMENT_INTERVAL_MS - tempsEcouleMesure) : 0;
-
-    // If a measurement is immediately due, do not sleep
-    if (tempsRestantMesure > 0) {
-      const uint32_t t0 = millis();
-      // Sleep until next measurement (button will wake ESP earlier if needed)
-      dormirJusquA(tempsRestantMesure);
-      sommeilMs += (uint32_t)(millis() - t0);
+  } else {
+    const uint32_t t0 = millis();
+    if (dormirTranche(SLICE_MS)) {
+      sommeilMs += (uint32_t)(millis() - t0);   // only sleeps accepted by the SDK count
     }
   }
 }
